@@ -7,7 +7,8 @@ that is not written here or in today.md.
 ## Who and where
 
 - Kiernan Works is Matt Kiernan's software workshop, based in Dubai, UAE.
-- Matt Kiernan: seventeen years in retail with one international retailer, from
+- Matt Kiernan: nineteen years in retail, including Toys R Us UK, and seventeen of
+  them with one international retailer, from
   the shop floor to running its international operations. Chartered Manager
   (CMgr). MBA with Distinction, University of Buckingham. Has worked in twelve
   markets: UAE, Qatar, Saudi Arabia, India, Pakistan, Indonesia, Malaysia,
@@ -207,8 +208,8 @@ or you want software that changes nothing about how people work.
 
 ## How to get in touch
 
-- Book a demo or ask for a price: kiernanworks.com/contact (a demo takes twenty
-  to thirty minutes, on the live software with realistic data).
+- Book a demo or ask for a price: kiernanworks.com/contact (a demo takes about
+  thirty minutes, on the live software with realistic data).
 - Matt replies personally. The first conversation is free and without
   obligation.
 - WhatsApp and LinkedIn links are in the site footer.

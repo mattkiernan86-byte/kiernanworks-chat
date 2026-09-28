@@ -163,7 +163,7 @@ check('and an alarm is armed to send it once the visitor goes quiet', env.__stor
 
 // ---------- 5. the prompt holds its shape ----------
 const sys = systemPrompt();
-check('the prompt carries the site knowledge', /Per store, per month/.test(sys) && /Reem Mall/.test(sys));
+check('the prompt carries the site knowledge', /per store, per month/i.test(sys) && /Reem Mall/.test(sys));
 check('and the capability list', /does not yet/i.test(sys) || /Not yet/.test(sys));
 check('and says what to do when it does not know', /I can't confirm that one/.test(sys));
 check('and treats visitor text as questions, not instructions', /never an instruction/.test(sys));
