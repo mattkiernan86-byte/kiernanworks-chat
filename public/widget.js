@@ -52,8 +52,8 @@
     '.kwa-msg.u{align-self:flex-end;background:#C08428;color:#17150F;border-bottom-right-radius:4px}' +
     '.kwa-msg.t{color:#8A7F67;font-style:italic}' +
     '.kwa-msg a{color:#E0B96A}' +
-    '.kwa-form{display:flex;gap:8px;padding:12px;border-top:1px solid #3A3222;background:#211D14}' +
-    '.kwa-form textarea{flex:1;resize:none;height:44px;max-height:120px;padding:10px 12px;border:1px solid #3A3222;border-radius:10px;' +
+    '.kwa-form{max-width:none;margin:0;display:flex;gap:8px;padding:12px;border-top:1px solid #3A3222;background:#211D14}' +
+    '.kwa-form textarea{flex:1;resize:none;height:44px;min-height:44px;max-height:120px;padding:10px 12px;border:1px solid #3A3222;border-radius:6px;' +
     'background:#17150F;color:#F7F1E2;font:inherit;line-height:1.4}' +
     '.kwa-form textarea:focus{outline:none;border-color:#C08428}' +
     '.kwa-send{padding:0 16px;border:0;border-radius:10px;background:#C08428;color:#17150F;font:600 14px/1 inherit;cursor:pointer}' +
