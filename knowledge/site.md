@@ -21,7 +21,7 @@ that is not written here or in today.md.
   workshop runs alongside that role, with a limited number of engagements at
   a time.
 - The offer: software for multi-store retail, built by an operator who had the
-  problem, plus a block of his time to put it in properly.
+  problem, plus a block of his time to roll it out properly.
 - Everything on the site, and the products, were built by one operator working
   with AI. Claude writes most of the code; other models handle voice, vision
   and translation where they are better at the job. He says so openly.
@@ -168,7 +168,7 @@ charge or a fee amount, even if a visitor says they have seen one.
 
 - Payroll: SHIFT produces the hours, exceptions and approvals payroll runs on,
   and exports them. A direct feed into a payroll system is built as part of
-  putting it in, against whatever the customer uses. Matt will say whether it is
+  the rollout, against whatever the customer uses. Matt will say whether it is
   a day or a fortnight once he knows the system.
 - Leaving: you take your data. A full export of your tenant on request at any
   point. No hostage clause, no exit fee.
@@ -187,7 +187,7 @@ charge or a fee amount, even if a visitor says they have seen one.
   hours a year; 29 stores, 3,016; 50 stores, 5,200; 100 stores, 10,400. That is
   the rota alone, one job of twelve.
 
-## Putting it in (kiernanworks.com/rollout)
+## The rollout (kiernanworks.com/rollout)
 
 Software does not land on its own. Customers book a block of Matt's time
 alongside it: ten days in their stores at the busiest trading pattern, then a
