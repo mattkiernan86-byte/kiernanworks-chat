@@ -28,7 +28,49 @@
   // configured, so the page's own fallback text shows if it is not.
   var HOST = document.getElementById('kw-assistant');
   var INLINE = !!HOST;
-  var SUGGESTIONS = ['How does the rota work?', 'Does it work offline?', 'What about payroll?'];
+  // The page's language picks the widget's words. Arabic pages get Arabic
+  // throughout, laid out right to left; the assistant itself already
+  // answers in whatever language the visitor writes in.
+  var AR = /^ar\b/i.test(document.documentElement.lang || '');
+  var T = AR ? {
+    button: 'اسأل عن SHIFT',
+    title: 'مساعد مات',
+    subtitle: 'ذكاء اصطناعي يجيب من محتوى هذا الموقع. متاح دائماً.',
+    close: 'إغلاق',
+    placeholder: 'اسأل عن SHIFT أو ASK أو LINE',
+    send: 'إرسال',
+    demo: 'احجز عرضاً توضيحياً مع مات',
+    note: 'تتم معالجة الرسائل عبر Anthropic. ',
+    privacy: 'الخصوصية',
+    privacyUrl: 'https://kiernanworks.com/ar/privacy#assistant',
+    contact: 'https://kiernanworks.com/ar/contact?demo=shift',
+    thinking: 'جارٍ التفكير…',
+    failed: 'تعذّر عليّ الإجابة الآن. يمكن لمات أن يجيبك عبر kiernanworks.com/ar/contact',
+    timeout: ' (لم يكتمل التحقق من أنك شخص حقيقي. أعد تحميل الصفحة وحاول مجدداً.)',
+    closed: 'انتهت هذه المحادثة',
+    greeting: 'مات مشغول الآن، لكنني مساعده الذكي. لا أنام ولا تشغلني الاجتماعات، ويسعدني دائماً ' +
+      'الإجابة عن أسئلتك حول SHIFT وASK وLINE. ماذا تودّ أن تعرف؟',
+    suggestions: ['كيف يعمل جدول المناوبات؟', 'هل يعمل بدون اتصال بالإنترنت؟', 'ماذا عن الرواتب؟']
+  } : {
+    button: 'Ask about SHIFT',
+    title: "Matt's assistant",
+    subtitle: 'An AI, answering from the site. Always on.',
+    close: 'Close',
+    placeholder: 'Ask about SHIFT, ASK or LINE',
+    send: 'Send',
+    demo: 'Book a demo with Matt',
+    note: 'Messages are processed by Anthropic. ',
+    privacy: 'Privacy',
+    privacyUrl: 'https://kiernanworks.com/privacy#assistant',
+    contact: CONTACT,
+    thinking: 'Thinking\u2026',
+    failed: "I couldn't answer that just now. Matt can, at kiernanworks.com/contact.",
+    timeout: ' (The check that you are a person did not complete; reload and try again.)',
+    closed: 'This conversation has closed',
+    greeting: null,
+    suggestions: ['How does the rota work?', 'Does it work offline?', 'What about payroll?']
+  };
+  var SUGGESTIONS = T.suggestions;
 
   var css = '' +
     '.kwa-btn{position:fixed;right:18px;bottom:18px;z-index:9998;display:flex;align-items:center;gap:10px;' +
@@ -90,7 +132,7 @@
   // interpreted, so a reply can never inject markup.
   function render(text) {
     var frag = document.createDocumentFragment();
-    var re = /(https?:\/\/[^\s)]+|kiernanworks\.com\/[a-z?=&-]+)/g;
+    var re = /(https?:\/\/[^\s)]+|kiernanworks\.com\/[a-z?=&#\/-]+)/g;
     var last = 0, m;
     while ((m = re.exec(text))) {
       if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
@@ -108,34 +150,35 @@
 
   var btn = el('button', 'kwa-btn');
   btn.type = 'button';
-  btn.setAttribute('aria-label', 'Ask about SHIFT');
+  btn.setAttribute('aria-label', T.button);
   btn.appendChild(el('span', 'kwa-dot'));
-  btn.appendChild(document.createTextNode('Ask about SHIFT'));
+  btn.appendChild(document.createTextNode(T.button));
   btn.style.display = 'none';
 
   var panel = el('div', 'kwa-panel');
   panel.setAttribute('role', 'dialog');
   panel.setAttribute('aria-label', "Matt's AI assistant");
   var head = el('div', 'kwa-head');
-  var title = el('div'); title.appendChild(el('b', null, "Matt's assistant"));
-  title.appendChild(el('small', null, 'An AI, answering from the site. Always on.'));
-  var x = el('button', 'kwa-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close');
+  var title = el('div'); title.appendChild(el('b', null, T.title));
+  title.appendChild(el('small', null, T.subtitle));
+  var x = el('button', 'kwa-x', '×'); x.type = 'button'; x.setAttribute('aria-label', T.close);
   head.appendChild(title); head.appendChild(x);
   var log = el('div', 'kwa-log'); log.setAttribute('aria-live', 'polite');
   var ts = el('div', 'kwa-ts');
   var form = el('form', 'kwa-form');
-  var input = el('textarea'); input.placeholder = 'Ask about SHIFT, ASK or LINE'; input.maxLength = 500; input.rows = 1;
-  var send = el('button', 'kwa-send', 'Send'); send.type = 'submit';
+  var input = el('textarea'); input.placeholder = T.placeholder; input.maxLength = 500; input.rows = 1;
+  var send = el('button', 'kwa-send', T.send); send.type = 'submit';
   form.appendChild(input); form.appendChild(send);
   var foot = el('div', 'kwa-foot');
-  var demo = el('a', null, 'Book a demo with Matt'); demo.href = CONTACT; demo.target = '_top';
-  var note = el('span', null, 'Messages are processed by Anthropic. ');
-  var priv = el('a', null, 'Privacy'); priv.href = 'https://kiernanworks.com/privacy#assistant'; priv.target = '_top';
+  var demo = el('a', null, T.demo); demo.href = T.contact; demo.target = '_top';
+  var note = el('span', null, T.note);
+  var priv = el('a', null, T.privacy); priv.href = T.privacyUrl; priv.target = '_top';
   note.appendChild(priv);
   foot.appendChild(note);
   foot.appendChild(demo);
   panel.appendChild(head); panel.appendChild(log); panel.appendChild(ts); panel.appendChild(form); panel.appendChild(foot);
 
+  if (AR) { panel.setAttribute('dir', 'rtl'); btn.setAttribute('dir', 'rtl'); btn.style.right = 'auto'; btn.style.left = '18px'; }
   if (INLINE) panel.classList.add('kwa-inline');
   else { document.body.appendChild(btn); document.body.appendChild(panel); }
 
@@ -148,7 +191,7 @@
 
   function redraw() {
     log.textContent = '';
-    add('assistant', state.config.greeting);
+    add('assistant', T.greeting || state.config.greeting);
     if (!state.messages.length) {
       var chips = el('div', 'kwa-chips');
       SUGGESTIONS.forEach(function (q) {
@@ -227,7 +270,7 @@
     var leftover = log.querySelector('.kwa-chips'); if (leftover) leftover.remove();
     state.messages.push({ role: 'user', content: text });
     add('user', text);
-    var thinking = add('thinking', 'Thinking…');
+    var thinking = add('thinking', T.thinking);
     state.busy = true; send.disabled = true;
     ask(text, false).then(function (reply) {
       thinking.remove();
@@ -235,11 +278,10 @@
       add('assistant', reply);
     }).catch(function (err) {
       thinking.remove();
-      add('assistant', "I couldn't answer that just now. Matt can, at kiernanworks.com/contact." +
-        (err && err.message === 'timeout' ? ' (The check that you are a person did not complete; reload and try again.)' : ''));
+      add('assistant', T.failed + (err && err.message === 'timeout' ? T.timeout : ''));
     }).then(function () {
       state.busy = false;
-      if (state.closed) { input.disabled = true; send.disabled = true; input.placeholder = 'This conversation has closed'; return; }
+      if (state.closed) { input.disabled = true; send.disabled = true; input.placeholder = T.closed; return; }
       send.disabled = false; input.focus();
     });
   }
@@ -253,6 +295,7 @@
   });
 
   function open() {
+    if (AR && !INLINE && window.innerWidth > 520) { panel.style.right = 'auto'; panel.style.left = '18px'; }
     panel.classList.add('open'); btn.style.display = 'none';
     redraw(); input.focus();
     turnstileToken().catch(function () { /* it will be retried on send */ });
