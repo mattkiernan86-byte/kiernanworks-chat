@@ -87,6 +87,40 @@ Matt; until it has, treat it as a draft even though the file no longer says so
 (the words "draft" in the bot's own memory made it hedge). The assistant is told that anything not
 in the "does today" list is "not something I can confirm", never a yes.
 
+## What it will not do
+
+The rules in `systemPrompt()` in `worker.js`, in short:
+
+- **No individuals.** Nothing about any person except Matt as the site
+  describes him: not colleagues, staff, owners or public figures at The
+  Entertainer, Early Learning Centre, ALGT, Toys R Us or anywhere else.
+- **Employers: one line only.** SHIFT runs in the 29 ELC stores in the UAE
+  and Qatar that The Entertainer operates. Nothing about those companies'
+  business, people or plans, and nothing about Matt's employment.
+- **Not a general assistant.** No essays, code, translation, sums or chat
+  outside the three products, however it is asked.
+- **No prices.** The model and a route to Matt, never a figure.
+- **Abuse and persistence.** One calm reply; if it carries on, the assistant
+  ends its reply with `[[END]]`, the Worker strips it, and the server closes
+  that conversation for good. A new one needs a fresh person check.
+
+## The red team
+
+`tools/redteam.mjs` puts about 35 hostile and ordinary questions, in English
+and Arabic, to the real model through the same code the live assistant uses,
+and a second model grades each reply. It also checks, without judgement,
+that no price figure, close marker or em dash gets through, and that the
+ordinary questions still get proper answers.
+
+To run it: GitHub, this repository, **Actions**, **Red team**, **Run
+workflow**. The results table appears on the run's summary page. It needs the
+repository secret `ANTHROPIC_API_KEY`: **Settings**, **Secrets and variables**,
+**Actions**, **New repository secret**. Use a second key from the
+`kiernanworks-chat` workspace in the Anthropic console, so it sits under the
+same spend limit and can be revoked on its own. A run costs pence.
+
+Run it after any change to the prompt or the knowledge.
+
 ## Running the tests
 
     npm test

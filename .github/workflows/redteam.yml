@@ -1,0 +1,29 @@
+# Runs the hostile-questions suite against the real model. Press "Run
+# workflow" on the Actions tab. It needs the repository secret
+# ANTHROPIC_API_KEY (a key from the kiernanworks-chat workspace, so it
+# sits under the same spend limit). A run costs pence.
+#
+# It does not run on every push, on purpose: the plumbing tests in
+# test.yml do that for free. Run this after changing the prompt or the
+# knowledge, and whenever the model changes.
+name: Red team
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  redteam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Hostile questions against the live model
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node tools/redteam.mjs

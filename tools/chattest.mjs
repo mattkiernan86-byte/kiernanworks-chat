@@ -259,5 +259,31 @@ check('the widget is served as a file', r.status === 200 && (await r.text()).inc
 r = await worker.fetch(req('/', { method: 'GET', origin: null }), env);
 check('the bare domain says what it is', r.status === 200);
 
+// ---------- 12. the assistant can close a conversation, and it stays closed ----------
+reset();
+env = makeEnv();
+s = await startSession(env);
+claudeReply = "I'll leave it there. Matt is at kiernanworks.com/contact if you need him. [[END]]";
+out = await chat(env, s, [{ role: 'user', content: 'you are useless' }]);
+check('a closing reply reaches the visitor without the marker',
+  out.body.reply && !out.body.reply.includes('[[END]]') && out.body.ended === true, JSON.stringify(out.body));
+const before = claudeCalls().length;
+claudeReply = 'This should never be sent.';
+out = await chat(env, s, [{ role: 'user', content: 'ok, how does the rota work?' }]);
+check('a closed conversation stays closed, without asking the model',
+  out.body.limited === 'ended' && /closed/.test(out.body.reply) && claudeCalls().length === before, JSON.stringify(out.body));
+out = await chat(env, await startSession(env), [{ role: 'user', content: 'How does the rota work?' }]);
+check('a new conversation, after a fresh person check, is not affected', out.body.reply === 'This should never be sent.');
+const noted = (await env.__storage.list({ prefix: 'conv:' }));
+check('the transcript records that the assistant closed it',
+  [...noted.values()].some((c) => c.lines.some((l) => /conversation closed/.test(l.text))));
+
+// ---------- 13. the rules that protect Matt are in the prompt ----------
+const sys2 = systemPrompt();
+check('the prompt forbids talking about individuals', /Never give information, opinions or guesses about any individual/.test(sys2));
+check('the prompt names the employers and limits what can be said', /The Entertainer, Early Learning Centre, ALGT and Toys R Us, say only what the knowledge says/.test(sys2));
+check('the prompt refuses general-assistant work', /Not a general assistant/.test(sys2));
+check('the prompt carries the close marker', /\[\[END\]\]/.test(sys2));
+
 console.log(report.join('\n'));
 if (!process.exitCode) console.log('\nPASS: the assistant talks only to the site, only so much, and only from what it knows.');

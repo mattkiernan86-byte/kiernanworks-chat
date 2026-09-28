@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '22'
       - name: Syntax
-        run: node --check worker.js && node --check public/widget.js
+        run: node --check worker.js && node --check public/widget.js && node --check tools/redteam.mjs
       - name: The knowledge bundle is in step with the markdown
         run: |
           cp data/knowledge.json /tmp/before.json

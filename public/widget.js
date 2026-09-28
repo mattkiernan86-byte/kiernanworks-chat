@@ -210,6 +210,7 @@
       return post('/api/chat', { session: session, messages: state.messages });
     }).then(function (r) {
       if (r.__status === 401 && !retried) { state.session = null; return ask(text, true); }
+      if (r.ended || r.limited === 'ended') state.closed = true;
       if (r.reply) return r.reply;
       throw new Error(r.error || 'no reply');
     });
@@ -233,7 +234,11 @@
       thinking.remove();
       add('assistant', "I couldn't answer that just now. Matt can, at kiernanworks.com/contact." +
         (err && err.message === 'timeout' ? ' (The check that you are a person did not complete; reload and try again.)' : ''));
-    }).then(function () { state.busy = false; send.disabled = false; input.focus(); });
+    }).then(function () {
+      state.busy = false;
+      if (state.closed) { input.disabled = true; send.disabled = true; input.placeholder = 'This conversation has closed'; return; }
+      send.disabled = false; input.focus();
+    });
   }
 
   form.addEventListener('submit', submit);
