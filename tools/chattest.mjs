@@ -285,5 +285,25 @@ check('the prompt names the employers and limits what can be said', /The Enterta
 check('the prompt refuses general-assistant work', /Not a general assistant/.test(sys2));
 check('the prompt carries the close marker', /\[\[END\]\]/.test(sys2));
 
+// ---------- 14. the scrambled IP counters are gone within two hours ----------
+reset();
+env = makeEnv();
+s = await startSession(env);
+const t0 = Date.now();
+await chat(env, s, [{ role: 'user', content: 'hello' }]);
+check('a counter write arms the clean-up', env.__storage.alarm != null);
+// The conversation is flushed and nothing else is open, two hours on.
+await env.__meter.alarm(t0 + 2 * 60 * 60 * 1000);
+const hoursLeft = await env.__storage.list({ prefix: 'hour:' });
+check('no per-visitor counter survives two hours, with no conversation open', hoursLeft.size === 0, `${hoursLeft.size} left`);
+// And one from the current hour keeps the alarm coming back.
+reset();
+env = makeEnv();
+s = await startSession(env);
+await chat(env, s, [{ role: 'user', content: 'hello' }]);
+await env.__meter.alarm(Date.now() + 20 * 60 * 1000);
+check('a counter from this hour keeps a clean-up scheduled',
+  (await env.__storage.list({ prefix: 'hour:' })).size === 0 || env.__storage.alarm != null);
+
 console.log(report.join('\n'));
 if (!process.exitCode) console.log('\nPASS: the assistant talks only to the site, only so much, and only from what it knows.');

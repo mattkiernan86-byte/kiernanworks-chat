@@ -256,6 +256,10 @@ export class Meter {
       this.storage.put(hourKey, (hour || 0) + 1),
       this.storage.put(turnKey, (turns || 0) + 1)
     ]);
+    // Make sure something will come back to delete the counter.
+    if ((await this.storage.getAlarm()) == null) {
+      await this.storage.setAlarm((Math.floor(now / HOUR_MS) + 1) * HOUR_MS + 60 * 1000);
+    }
     return { ok: true, day: (day || 0) + 1 };
   }
 
@@ -284,16 +288,26 @@ export class Meter {
         pendingOldest = conv.updated;
       }
     }
-    // Counters older than a day are worthless; sweep them while here.
+    // The per-visitor counters are keyed by a hash of an IP address, so
+    // they are personal data, and the privacy page promises they are gone
+    // within two hours. An hour's counter is deleted as soon as that hour
+    // is over, and while any remain the alarm comes back at the next hour
+    // boundary, whether or not a conversation is open. Day totals hold no
+    // personal data and go after a day.
     const today = Math.floor(now / DAY_MS);
     const thisHour = Math.floor(now / HOUR_MS);
     for (const key of (await this.storage.list({ prefix: 'day:' })).keys()) {
       if (Number(key.slice(4)) < today - 1) await this.storage.delete(key);
     }
+    let hourKeysLeft = false;
     for (const key of (await this.storage.list({ prefix: 'hour:' })).keys()) {
-      if (Number(key.split(':')[1]) < thisHour - 1) await this.storage.delete(key);
+      if (Number(key.split(':')[1]) < thisHour) await this.storage.delete(key);
+      else hourKeysLeft = true;
     }
-    if (pendingOldest != null) await this.storage.setAlarm(pendingOldest + IDLE_FLUSH_MS);
+    const next = [];
+    if (pendingOldest != null) next.push(pendingOldest + IDLE_FLUSH_MS);
+    if (hourKeysLeft) next.push((thisHour + 1) * HOUR_MS + 60 * 1000);
+    if (next.length) await this.storage.setAlarm(Math.min(...next));
   }
 
   async report(conv) {
