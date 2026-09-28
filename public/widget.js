@@ -24,13 +24,13 @@
 
   var css = '' +
     '.kwa-btn{position:fixed;right:18px;bottom:18px;z-index:9998;display:flex;align-items:center;gap:10px;' +
-    'padding:12px 16px;border:1px solid #3A3222;border-radius:999px;background:#211D14;color:#F7F1E2;' +
+    'padding:11px 15px;border:1px solid #3A3222;border-radius:6px;background:#211D14;color:#F7F1E2;' +
     'font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;cursor:pointer;' +
     'box-shadow:0 10px 30px rgba(0,0,0,.35)}' +
     '.kwa-btn:hover{border-color:#C08428}' +
-    '.kwa-btn .kwa-dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(120deg,#8A5A16,#F0CE8A 38%,#C08428 62%,#EBC073)}' +
+    '.kwa-btn .kwa-dot{width:8px;height:8px;border-radius:50%;background:#C08428}' +
     '.kwa-panel{position:fixed;right:18px;bottom:18px;z-index:9999;width:min(400px,calc(100vw - 36px));height:min(600px,calc(100vh - 36px));' +
-    'display:none;flex-direction:column;background:#1D1A11;color:#F7F1E2;border:1px solid #3A3222;border-radius:16px;' +
+    'display:none;flex-direction:column;background:#1D1A11;color:#F7F1E2;border:1px solid #3A3222;border-radius:8px;' +
     'box-shadow:0 16px 40px rgba(0,0,0,.45);overflow:hidden;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}' +
     '.kwa-panel.open{display:flex}' +
     '@media (max-width:520px){.kwa-panel{right:0;bottom:0;width:100vw;height:100dvh;border-radius:0}}' +
@@ -39,7 +39,7 @@
     '.kwa-x{background:none;border:0;color:#BCAF95;font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}' +
     '.kwa-x:hover{color:#F7F1E2}' +
     '.kwa-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}' +
-    '.kwa-msg{max-width:88%;padding:10px 13px;border-radius:14px;white-space:pre-wrap;word-wrap:break-word}' +
+    '.kwa-msg{max-width:88%;padding:9px 12px;border-radius:8px;white-space:pre-wrap;word-wrap:break-word}' +
     '.kwa-msg.a{align-self:flex-start;background:#241E12;border:1px solid #3A3222;border-bottom-left-radius:4px}' +
     '.kwa-msg.u{align-self:flex-end;background:#C08428;color:#17150F;border-bottom-right-radius:4px}' +
     '.kwa-msg.t{color:#8A7F67;font-style:italic}' +
