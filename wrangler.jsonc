@@ -7,6 +7,15 @@
     "enabled": true
   },
 
+  // The address, declared here rather than clicked in the dashboard, so
+  // every deploy sets it up and nothing depends on finding the right
+  // screen. Cloudflare creates the DNS record itself because the
+  // kiernanworks.com zone is on the same account. A custom domain takes
+  // precedence over any wildcard route on the zone.
+  "routes": [
+    { "pattern": "chat.kiernanworks.com", "custom_domain": true }
+  ],
+
   // The widget and nothing else is served as a static file. Everything
   // under /api is the Worker.
   "assets": {
@@ -22,15 +31,18 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Meter"] }],
 
-  // Plain settings. Secrets (ANTHROPIC_API_KEY, TURNSTILE_SECRET,
-  // TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) are set in the dashboard, never
-  // here. TURNSTILE_SITE_KEY is public by design and is set here too once
-  // the widget exists; the Worker hands it to the widget.
+  // Plain settings owned by the code. Secrets (ANTHROPIC_API_KEY,
+  // TURNSTILE_SECRET, and optionally TELEGRAM_BOT_TOKEN and
+  // TELEGRAM_CHAT_ID) and the one plain variable set in the dashboard,
+  // TURNSTILE_SITE_KEY, are never listed here: a deploy replaces every
+  // plain variable with what this file says, so listing one here, even
+  // empty, would wipe the dashboard's value on every push. keep_vars
+  // makes that explicit.
+  "keep_vars": true,
   "vars": {
     "ALLOWED_ORIGINS": "https://kiernanworks.com,https://www.kiernanworks.com",
     "DAILY_CAP": "300",
     "HOURLY_PER_VISITOR": "20",
-    "TURNS_PER_SESSION": "12",
-    "TURNSTILE_SITE_KEY": ""
+    "TURNS_PER_SESSION": "12"
   }
 }

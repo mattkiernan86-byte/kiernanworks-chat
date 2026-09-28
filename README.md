@@ -61,9 +61,12 @@ Everything below is done in a browser. Nothing secret goes in this repository.
   - `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` (secrets), the same pair the
     trading agent uses, so conversation summaries land in the same chat.
     Optional: without them the chat works and nothing is reported.
-- Settings > Domains & Routes > Add > Custom domain: `chat.kiernanworks.com`.
-  Cloudflare creates the DNS record itself because the zone is already here.
-- Deploy once more from the Deployments tab so the new variables take effect.
+- Deploy once more so the new variables take effect.
+- The address, `chat.kiernanworks.com`, is declared in `wrangler.jsonc` and set
+  up by the deploy itself. There is nothing to click for it.
+- Do not add `TURNSTILE_SITE_KEY` to `wrangler.jsonc`. A deploy replaces plain
+  variables with what the file says, so an entry there, even an empty one,
+  would wipe the value set in the dashboard.
 
 **4. Check it**
 
