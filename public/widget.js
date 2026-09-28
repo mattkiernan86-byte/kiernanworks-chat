@@ -129,7 +129,10 @@
   form.appendChild(input); form.appendChild(send);
   var foot = el('div', 'kwa-foot');
   var demo = el('a', null, 'Book a demo with Matt'); demo.href = CONTACT; demo.target = '_top';
-  foot.appendChild(el('span', null, 'Messages are processed by Anthropic.'));
+  var note = el('span', null, 'Messages are processed by Anthropic. ');
+  var priv = el('a', null, 'Privacy'); priv.href = 'https://kiernanworks.com/privacy#assistant'; priv.target = '_top';
+  note.appendChild(priv);
+  foot.appendChild(note);
   foot.appendChild(demo);
   panel.appendChild(head); panel.appendChild(log); panel.appendChild(ts); panel.appendChild(form); panel.appendChild(foot);
 
