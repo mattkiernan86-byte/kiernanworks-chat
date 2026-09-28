@@ -122,7 +122,8 @@ one.
 Staff ask a question in their own language and get an answer from the
 company's actual documents, with the source attached (for example "Thirty days
 for anything over five days. Source: Leave Policy, section 4.2"). It cannot
-bluff and it cannot run up a bill. Answers in five languages. In the estate it
+bluff and it cannot run up a bill. It speaks more than 20 languages, six of them a
+single tap away. In the estate it
 came from it has answered over 2,400 shop floor questions; a third were about
 termination and leave, clustered at specific stores, which turned out to be a
 training and documentation gap and surfaced two welfare issues. The query data
@@ -133,7 +134,8 @@ turned out to be worth more than the answers.
 One official number instead of dozens of store phones. AI handles the routine
 and refuses to guess stock. When a human takes over, whatever English they type
 is rewritten on brand before it is sent, in English or Arabic. Every customer
-conversation is on the record. In service, live on WhatsApp.
+conversation is on the record. In service, live on WhatsApp. Each retailer names
+its own assistant; in the Early Learning Centre estate it is called Jack.
 
 ## The tour
 
@@ -143,29 +145,23 @@ Twenty-eight short videos on kiernanworks.com/tour, 60 to 100 seconds each,
 feature at a time. Recorded against a demo estate; every store, colleague and
 number in it is invented. Nothing is a mock-up or a slide.
 
-## Pricing (kiernanworks.com/pricing)
+## Pricing
 
-Per store, per month, never per user, because retail hires for Christmas and
-shares tills.
+Matt does not publish his prices on the site, by choice. What the site does say:
 
-- SHIFT: $68 / 250 AED per store per month.
-- SHIFT + ASK: $95 / 350 AED per store per month.
-- SHIFT + ASK + LINE: $116 / 425 AED per store per month.
-- Prices shown in US dollars for comparison and billed in dirhams (pegged at
-  3.6725 since 1997). Billed monthly; annual is two months free.
-- LINE standalone: a flat monthly for the console with a fair-use conversation
-  volume.
-- Volume bands, published rather than negotiated, for SHIFT per store per
-  month: up to 25 stores full rate ($68 / 250 AED); 26 to 75 stores less 15%
-  ($58 / 212 AED); 76 stores and above less 25% ($51 / 187 AED). The same
-  percentages apply to the bundles.
-- A minimum of ten stores, or the equivalent as a platform fee.
-- A one-off implementation fee from 15,000 AED (about $4,100) depending on
-  estate size and complexity. It covers data migration, configuration,
-  training, and the isolation and hardening of the deployment.
-- Design partner terms for the first estate to buy it as a product: half price
-  for the first twelve months in exchange for a reference, a case study and
-  permission to publish the numbers. Not yet taken.
+- It is priced per store, per month, never per user, because retail hires for
+  Christmas and shares tills, and per-user pricing would encourage shared logins.
+- Billed monthly, in UAE dirhams. Taking it annually is cheaper.
+- There is a one-off implementation fee, which covers data migration,
+  configuration, training, and setting up and securing the customer's own
+  deployment.
+- Larger estates pay a lower rate per store.
+- It is built for estates of ten stores or more.
+- For a figure, a visitor should ask Matt at kiernanworks.com/contact with the
+  number of stores and the markets they trade in. He replies personally.
+
+The assistant never states a price, a rate, a discount, a band, a minimum
+charge or a fee amount, even if a visitor says they have seen one.
 
 ## Straight answers (kiernanworks.com/answers)
 
@@ -180,8 +176,8 @@ shares tills.
   agreed up front and written down.
 - Time to live: ten days in your stores first, then pilot stores, then the
   estate. Weeks rather than quarters for a typical estate.
-- Commitment: billed monthly, annual two months cheaper, implementation fee
-  one-off, no long tie-in.
+- Commitment: billed monthly, annual cheaper, implementation fee one-off, no
+  long tie-in.
 - Security: PIN attribution rather than shared logins, an audit trail on every
   write, a log of every time somebody's details are revealed, 7,000+ automated
   tests.
@@ -211,8 +207,8 @@ or you want software that changes nothing about how people work.
 
 ## How to get in touch
 
-- Book a demo or ask for a price: kiernanworks.com/contact (about twenty to
-  thirty minutes, live software with realistic data, no slides).
+- Book a demo or ask for a price: kiernanworks.com/contact (a demo takes twenty
+  to thirty minutes, on the live software with realistic data).
 - Matt replies personally. The first conversation is free and without
   obligation.
 - WhatsApp and LinkedIn links are in the site footer.
