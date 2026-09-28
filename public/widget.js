@@ -21,7 +21,6 @@
     catch (e) { return 'https://chat.kiernanworks.com'; }
   })();
   var CONTACT = 'https://kiernanworks.com/contact?demo=shift';
-  var STORE = 'kw-assistant-v1';
 
   var css = '' +
     '.kwa-btn{position:fixed;right:18px;bottom:18px;z-index:9998;display:flex;align-items:center;gap:10px;' +
@@ -63,17 +62,12 @@
     return n;
   };
 
+  // The conversation lives in this page's memory and nowhere else. The
+  // site promises visitors that nothing is stored on their device, so
+  // there is no cookie and no browser storage of any kind: moving to
+  // another page starts a fresh conversation, which is the price of
+  // keeping that promise true.
   var state = { config: null, session: null, messages: [], turnstileToken: null, widgetId: null, busy: false };
-
-  try {
-    var saved = JSON.parse(sessionStorage.getItem(STORE) || 'null');
-    if (saved && Array.isArray(saved.messages)) { state.messages = saved.messages; state.session = saved.session || null; }
-  } catch (e) { /* storage may be unavailable; the chat still works for this page */ }
-
-  function persist() {
-    try { sessionStorage.setItem(STORE, JSON.stringify({ messages: state.messages.slice(-24), session: state.session })); }
-    catch (e) { /* ignore */ }
-  }
 
   // Links in the assistant's replies become clickable; nothing else is
   // interpreted, so a reply can never inject markup.
@@ -179,7 +173,7 @@
     }).then(function (r) {
       if (!r.session) throw new Error(r.error || 'no session');
       state.turnstileToken = null;
-      state.session = r.session; persist();
+      state.session = r.session;
       return r.session;
     });
   }
@@ -199,13 +193,13 @@
     var text = input.value.trim();
     if (!text || state.busy) return;
     input.value = ''; input.style.height = '44px';
-    state.messages.push({ role: 'user', content: text }); persist();
+    state.messages.push({ role: 'user', content: text });
     add('user', text);
     var thinking = add('thinking', 'Thinking…');
     state.busy = true; send.disabled = true;
     ask(text, false).then(function (reply) {
       thinking.remove();
-      state.messages.push({ role: 'assistant', content: reply }); persist();
+      state.messages.push({ role: 'assistant', content: reply });
       add('assistant', reply);
     }).catch(function (err) {
       thinking.remove();
