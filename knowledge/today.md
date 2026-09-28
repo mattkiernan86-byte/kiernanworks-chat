@@ -1,9 +1,8 @@
 # What SHIFT does today, and what it does not yet
 
-DRAFT for Matt to correct. Drafted from the site copy on 28 September 2026.
-The assistant treats this file as the truth about current capability. Anything
-a visitor asks about that is not in the "does today" list is answered as
-"not something I can confirm; Matt can tell you", never as yes.
+The truth about current capability, as of 28 September 2026. Anything a
+visitor asks about that is not in the "does today" list is answered as "not
+something I can confirm; Matt can tell you", never as yes.
 
 ## Does today, in production
 

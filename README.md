@@ -81,7 +81,10 @@ change `site.md`. When SHIFT gains or loses a capability, change `today.md`.
 Then `npm run build`, commit both the markdown and `data/knowledge.json`, and
 merge. CI fails if the JSON is stale.
 
-`today.md` is the one that matters. The assistant is told that anything not
+`today.md` is the one that matters. The first version was drafted from the
+site copy on 28 September 2026 and has not yet been checked line by line by
+Matt; until it has, treat it as a draft even though the file no longer says so
+(the words "draft" in the bot's own memory made it hedge). The assistant is told that anything not
 in the "does today" list is "not something I can confirm", never a yes.
 
 ## Running the tests
