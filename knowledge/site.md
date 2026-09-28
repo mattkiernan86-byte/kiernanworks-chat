@@ -213,9 +213,3 @@ or you want software that changes nothing about how people work.
 - Matt replies personally. The first conversation is free and without
   obligation.
 - WhatsApp and LinkedIn links are in the site footer.
-
-## TRADE, not for sale
-
-TRADE is an autonomous portfolio agent, a passion project mentioned on the site
-only as proof the workshop can build autonomous systems that handle money. It
-is not a product and not for sale; do not discuss its performance or details.

@@ -22,6 +22,14 @@
   })();
   var CONTACT = 'https://kiernanworks.com/contact?demo=shift';
 
+  // A page that wants the assistant in its layout rather than in the
+  // corner gives it a home: <div id="kw-assistant"></div>. Whatever is in
+  // that element is left alone until the assistant is known to be
+  // configured, so the page's own fallback text shows if it is not.
+  var HOST = document.getElementById('kw-assistant');
+  var INLINE = !!HOST;
+  var SUGGESTIONS = ['How does the rota work?', 'Does it work offline?', 'What about payroll?'];
+
   var css = '' +
     '.kwa-btn{position:fixed;right:18px;bottom:18px;z-index:9998;display:flex;align-items:center;gap:10px;' +
     'padding:11px 15px;border:1px solid #3A3222;border-radius:6px;background:#211D14;color:#F7F1E2;' +
@@ -53,7 +61,16 @@
     '.kwa-foot{display:flex;justify-content:space-between;gap:10px;padding:8px 14px 12px;background:#211D14;color:#8A7F67;font-size:11.5px}' +
     '.kwa-foot a{color:#E0B96A;text-decoration:none}' +
     '.kwa-ts{padding:0 12px;background:#211D14}' +
-    '.kwa-ts:empty{display:none}';
+    '.kwa-ts:empty{display:none}' +
+    // Inline: the same panel, sitting in the page where the page puts it.
+    '.kwa-panel.kwa-inline{position:static;display:flex;width:100%;height:auto;min-height:380px;max-height:560px;' +
+    'border-radius:6px;box-shadow:none;z-index:auto}' +
+    '.kwa-panel.kwa-inline .kwa-x{display:none}' +
+    '.kwa-panel.kwa-inline .kwa-log{min-height:190px}' +
+    '.kwa-chips{display:flex;flex-wrap:wrap;gap:8px}' +
+    '.kwa-chip{min-height:40px;padding:0 12px;border:1px solid #3A3222;border-radius:4px;background:transparent;' +
+    'color:#F7F1E2;font:inherit;font-size:14px;cursor:pointer}' +
+    '.kwa-chip:hover{border-color:#C08428}';
 
   var el = function (tag, cls, text) {
     var n = document.createElement(tag);
@@ -116,7 +133,8 @@
   foot.appendChild(demo);
   panel.appendChild(head); panel.appendChild(log); panel.appendChild(ts); panel.appendChild(form); panel.appendChild(foot);
 
-  document.body.appendChild(btn); document.body.appendChild(panel);
+  if (INLINE) panel.classList.add('kwa-inline');
+  else { document.body.appendChild(btn); document.body.appendChild(panel); }
 
   function add(role, text) {
     var m = el('div', 'kwa-msg ' + (role === 'user' ? 'u' : role === 'thinking' ? 'a t' : 'a'));
@@ -128,6 +146,15 @@
   function redraw() {
     log.textContent = '';
     add('assistant', state.config.greeting);
+    if (!state.messages.length) {
+      var chips = el('div', 'kwa-chips');
+      SUGGESTIONS.forEach(function (q) {
+        var c = el('button', 'kwa-chip', q); c.type = 'button';
+        c.addEventListener('click', function () { chips.remove(); input.value = q; submit(); });
+        chips.appendChild(c);
+      });
+      log.appendChild(chips);
+    }
     state.messages.forEach(function (m) { add(m.role, m.content); });
   }
 
@@ -193,6 +220,7 @@
     var text = input.value.trim();
     if (!text || state.busy) return;
     input.value = ''; input.style.height = '44px';
+    var leftover = log.querySelector('.kwa-chips'); if (leftover) leftover.remove();
     state.messages.push({ role: 'user', content: text });
     add('user', text);
     var thinking = add('thinking', 'Thinking…');
@@ -230,6 +258,14 @@
   fetch(ORIGIN + '/api/config').then(function (r) { return r.ok ? r.json() : null; }).then(function (c) {
     if (!c || !c.siteKey) return;
     state.config = c;
-    btn.style.display = 'flex';
-  }).catch(function () { /* stay hidden */ });
+    if (INLINE) {
+      // In the page, the person-check still waits until the visitor
+      // actually asks something, so nothing loads just by viewing it.
+      HOST.textContent = '';
+      HOST.appendChild(panel);
+      redraw();
+    } else {
+      btn.style.display = 'flex';
+    }
+  }).catch(function () { /* stay hidden, and an inline host keeps its fallback */ });
 })();
