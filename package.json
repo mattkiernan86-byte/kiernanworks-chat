@@ -1,0 +1,14 @@
+{
+  "name": "kiernanworks-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The assistant on kiernanworks.com: answers questions about SHIFT, ASK and LINE from the site's own copy.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/bundle-knowledge.mjs",
+    "test": "node tools/chattest.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

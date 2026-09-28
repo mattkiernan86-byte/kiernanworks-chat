@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kiernanworks-chat",
+  "main": "worker.js",
+  "compatibility_date": "2026-07-18",
+  "observability": {
+    "enabled": true
+  },
+
+  // The widget and nothing else is served as a static file. Everything
+  // under /api is the Worker.
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS"
+  },
+
+  // One Durable Object holds every counter and every open conversation.
+  // SQLite-backed, which is what the free plan provides, and no dashboard
+  // step: the migration below creates it on first deploy.
+  "durable_objects": {
+    "bindings": [{ "name": "METER", "class_name": "Meter" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Meter"] }],
+
+  // Plain settings. Secrets (ANTHROPIC_API_KEY, TURNSTILE_SECRET,
+  // TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) are set in the dashboard, never
+  // here. TURNSTILE_SITE_KEY is public by design and is set here too once
+  // the widget exists; the Worker hands it to the widget.
+  "vars": {
+    "ALLOWED_ORIGINS": "https://kiernanworks.com,https://www.kiernanworks.com",
+    "DAILY_CAP": "300",
+    "HOURLY_PER_VISITOR": "20",
+    "TURNS_PER_SESSION": "12",
+    "TURNSTILE_SITE_KEY": ""
+  }
+}
